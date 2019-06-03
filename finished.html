@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>  
+        <h2>Add Data</h2>
+        <input type = 'date' id = 'setChild' >
+        <input id = 'mainText' enter>
+        
+    <form>
+        <select id = "list_of_clubs">
+            <option id = 'deca'>DECA</option>
+            <option id = 'ibt'>IBT</option>
+            <option id = 'musical'>Musical</option>
+        </select>
+    </form>
+        
+    <button onclick="upload_to_FB()">submit</button>
+        
+    <h2>Get Data</h2>
+        <form>
+            <select id = "retrieve-data">
+                <option id = 'deca-retrieve'>DECA</option>
+                <option id = 'ibt-retrieve'>IBT</option>
+                <option id = 'musical-retrieve'>Musical</option>
+            </select>
+            </form>
+                <button onclick="retrieve_from_FB()">Get</button>
+    
+    
+        
+
+</body>
+<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCJxp0s9Axn_HAvu7hi79AosGzMk60AfWU",
+        authDomain: "fir-cloudcafe.firebaseapp.com",
+        databaseURL: "https://fir-cloudcafe.firebaseio.com",
+        projectId: "fir-cloudcafe",
+        storageBucket: "fir-cloudcafe.appspot.com",
+        messagingSenderId: "318093449580",
+        appId: "1:318093449580:web:ba45efdd5667f906"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+                                                                    // Indexing a club 
+                                                                    //begins at 0 
+
+    var selecting_a_club; 
+    
+
+    // console.log(selecting_a_club);
+    // console.log(typeof(selecting_a_club));
+
+    var mainText = document.getElementById('mainText');
+    var setChild = document.getElementById('setChild');
+    // var firebaseRef = firebase.database().ref().child(selecting_a_club);
+    
+
+    function upload_to_FB(){
+        selecting_a_club = document.getElementById('list_of_clubs').value;
+        var firebaseRef = firebase.database().ref().child(selecting_a_club);
+        var child = setChild.value;
+        var messageText =  mainText.value;
+        firebaseRef.child(child).set(messageText);
+
+    }
+    var dbstuff;
+    // console.log(dbstuff);
+    // console.log(typeof(dbstuff));
+
+    function retrieve_from_FB(){
+        // Retrieving each announcement for the indicated club
+        dbstuff = document.getElementById('retrieve-data').value;
+        var firebaseshow = firebase.database().ref().child(dbstuff);
+        firebaseshow.on("child_added", snap =>{
+        console.log(snap.key,snap.val());
+
+     }); 
+    }
+    
+    
+</script>
+
+</html>
